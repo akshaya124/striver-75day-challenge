@@ -1,0 +1,52 @@
+class Solution {
+    public long mergeAndcount(int[] nums, int left, int mid, int right){
+        int[] merged = new int[right - left +1];
+        int first = left;
+        int second = mid +1;
+        int index = 0;
+        long inversions = 0;
+        while(first<=mid && second<=right){
+            if(nums[first]<=nums[second]){
+                merged[index] = nums[first];
+                first++; 
+            }else{
+                inversions += mid - first +1;
+                merged[index] = nums[second];
+                second++;
+            }
+            index++;
+        }
+        while(first<=mid){
+            merged[index] = nums[first];
+            first++;
+            index++;
+        }
+        while(second<=right){
+            merged[index] = nums[second];
+            second++;
+            index++;
+        }
+        for(int c = 0;c<merged.length;c++){
+            nums[left+c] = merged[c];
+        }
+        return inversions;
+    }
+    public long mergesort(int[] nums, int left, int right){
+        if(left>=right){
+            return 0;
+        }
+        int mid = left + (right - left)/2;
+        long inversions = 0;
+        inversions += mergesort(nums,left, mid);
+        inversions += mergesort(nums, mid+1,right);
+        inversions += mergeAndcount(nums, left, mid, right);
+        return inversions;
+    }
+    public long numberOfInversions(int[] nums) {
+        int[] arr = Arrays.copyOf(nums, nums.length);
+        if(arr.length <= 1){
+            return 0;
+        }
+        return mergesort(nums, 0, arr.length - 1);
+    }
+}
