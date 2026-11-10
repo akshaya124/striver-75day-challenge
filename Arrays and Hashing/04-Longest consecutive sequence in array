@@ -9,7 +9,7 @@ class Solution {
         if(nums[i] - 1 == lastsmaller){
             cnt = cnt+1;
             lastsmaller = nums[i];
-        }else if(nums[i] - 1 != lastsmaller){
+        }else if(nums[i] != lastsmaller){
             cnt = 1;
             lastsmaller = nums[i];
         }
