@@ -1,0 +1,17 @@
+class Solution {
+    public int subarraysWithXorK(int[] nums, int k) {
+      Map<Integer,Long>mpp = new HashMap<>();
+      mpp.put(0,1);
+      int prefix = 0;
+      long cnt = 0;
+      for(int ele : nums){
+        prefix = prefix^ele;
+        int needed = prefix^k;
+        if(mpp.containsKey(needed)){
+            cnt += mpp.get(needed);
+        }
+        mpp.put(prefix,mpp.getOrDefault(prefix,0L)+1);
+      }
+      return (int)cnt;
+    }
+}
